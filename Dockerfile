@@ -11,10 +11,10 @@ ADD . $HOME
 RUN npm ci --omit=dev && rm -rf .npm
 
 # Fix permissions to write to /var/cache
-
+USER root
 RUN chgrp -R 0 /var/cache && \
     chmod -R g=u /var/cache
-
+USER 1001
 
 # Run the server
 CMD npm start
