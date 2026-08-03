@@ -1,20 +1,19 @@
-FROM registry.ocp4.example.com:8443/ubi10/nodejs-22-minimal:10.0
+FROM registry.access.redhat.com/ubi9/nodejs-20:latest
 
-# Application listens on this port
-ENV PORT=8080
-EXPOSE ${PORT}
+WORKDIR /opt/app-root/src
 
-# Copy the application source code
-ADD . $HOME
+# Copy application source
+COPY app.js ./
 
-# Install application dependencies and clean up
-RUN npm install --omit=dev && rm -rf .npm
+# Copy startup script to system path
+COPY start.sh /usr/local/bin/start.sh
 
-# Fix permissions to write to /var/cache
-USER root
-RUN chgrp -R 0 /var/cache && \
-    chmod -R g=u /var/cache
 USER 1001
 
-# Run the server
-CMD npm start
+# Fix permissions on startup script
+# EJERCICIO: este RUN falla. Encontra por que y corregi el Dockerfile.
+RUN chmod 0755 /usr/local/bin/start.sh
+
+EXPOSE 8080
+
+CMD ["/usr/local/bin/start.sh"]
