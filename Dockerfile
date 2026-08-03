@@ -8,7 +8,7 @@ EXPOSE ${PORT}
 ADD . $HOME
 
 # Install application dependencies and clean up
-RUN npm ci --omit=dev && rm -rf .npm
+RUN npm install --omit=dev && rm -rf .npm
 
 # Fix permissions to write to /var/cache
 USER root
