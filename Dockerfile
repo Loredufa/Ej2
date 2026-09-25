@@ -3,8 +3,8 @@ USER root
 WORKDIR /opt/app-root/src
 
 # Copy application source
-COPY app.js ./ &&\
-     start.sh /usr/local/bin/start.sh
+COPY app.js ./ 
+COPY start.sh /usr/local/bin/start.sh
 
 RUN chmod 0755 /usr/local/bin/start.sh
 USER 1001
